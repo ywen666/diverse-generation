@@ -349,8 +349,6 @@ def main():
         damp=0.001,
         repeat = 500,
         depth = 100,
-        #repeat = 5,
-        #depth = 20,
         scale = 50,
         gnh = True,
         cache_name = cache_name,
