@@ -354,7 +354,7 @@ class LiSSAInfluenceModuleWithGradientStorage(LiSSAInfluenceModule):
         gradients = []
         for grad_z, _ in self._loss_grad_loader_wrapper(batch_size=batch_size, subset=train_idxs, train=True):
             gradients.append(grad_z)
-        return
+        return gradients
 
     def save_gradients_in_batches(self, batch_size, train_idxs, save_batch_size):
         accumulated_gradients = []
