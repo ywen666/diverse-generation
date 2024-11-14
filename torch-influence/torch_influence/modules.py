@@ -350,26 +350,16 @@ class LiSSAInfluenceModuleWithGradientStorage(LiSSAInfluenceModule):
         if not self.gradient_files:
             self.gradients = self.calculate_gradients(batch_size=1, train_idxs=range(len(self.train_dataloader.dataset)))
 
-    #def inverse_hvp(self, vec):
-    #    # TODO: delete this
-    #    return vec
-
     def calculate_gradients(self, batch_size, train_idxs):
-        #iterator = iter(self._loss_grad_loader_wrapper(batch_size=batch_size, subset=train_idxs, train=True))
         gradients = []
-        #with tqdm(total=len(train_idxs)) as pbar:
         for grad_z, _ in self._loss_grad_loader_wrapper(batch_size=batch_size, subset=train_idxs, train=True):
             gradients.append(grad_z)
-        #        pbar.update(1)
-        import pdb; pdb.set_trace()
         return
 
-    #def save_gradients_in_batches(dataset, model, batch_size=1000):
     def save_gradients_in_batches(self, batch_size, train_idxs, save_batch_size):
         accumulated_gradients = []
         count = 1
         with tqdm(total=len(train_idxs)) as pbar:
-        #for i, data_point in enumerate(dataset, start=1):
             for grad_z, _ in self._loss_grad_loader_wrapper(batch_size=batch_size, subset=train_idxs, train=True):
                 accumulated_gradients.append(grad_z.cpu())
 
