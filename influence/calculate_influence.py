@@ -336,33 +336,10 @@ def main():
     )
     test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=1)
 
-    #trainer.train()
-    #trainer.save_state()
-    #safe_save_model_for_hf_trainer(trainer=trainer, output_dir=training_args.output_dir)
     cache_name=f"influence_cache/lissa_testquery_{training_args.query_idx}_solution_{training_args.solution_idx}_cache.json"
     #gradient_name=f"gradient_cache/{training_args.training_split}chunk"
     gradient_name=f"gradient_cache/*chunk*batch*.pt"
-    #module = IdentityInfluenceModule(
-    #module = InfluenceModuleWithGradientStorage(
-    #    model=model,
-    #    objective=MyObjective(model, trainer),
-    #    train_loader=train_loader,
-    #    test_loader=test_loader,
-    #    device=torch.device("cuda"),
-    #    cache_name=cache_name,
-    #    gradient_save_name=gradient_name,
-    #)
-    #module = CGInfluenceModule(
-    #    model=model,
-    #    objective=MyObjective(model, trainer),
-    #    train_loader=train_loader,
-    #    test_loader=test_loader,
-    #    device=torch.device("cuda"),
-    #    cache_name=cache_name,
-    #    damp=0.001,
-    #    atol=1e-8,
-    #    maxiter=1000,
-    #)
+
     module = LiSSAInfluenceModuleWithGradientStorage(
         model=model,
         objective=MyObjective(model, trainer),
@@ -380,14 +357,15 @@ def main():
         gradient_save_name=gradient_name,
     )
 
-
     # influence scores of training points 1, 2, and 3 on test point 0
     #import time
     #start_time = time.time()
     #scores = module.influences(list(range(2)), [training_args.query_idx])
     #indices = divide_and_select_chunk(len(train_dataset), 3, training_args.training_split)
     #module.save_gradients_in_batches(1, list(indices), 1000)
+    
     scores = module.influences(list(range(len(train_dataset))), [training_args.query_idx])
+    
     #print(f"It takes {time.time()-start_time} secs to calculate the scores")
     #print(scores)
 
