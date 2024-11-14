@@ -327,8 +327,6 @@ def main():
     data_module = dict(train_dataset=train_dataset, eval_dataset=None, data_collator=data_collator)
 
     trainer = Trainer(model=model, tokenizer=tokenizer, args=training_args, **data_module)
-    #train_loader = trainer.get_train_dataloader()
-    #test_loader = trainer.get_test_dataloader(test_dataset=test_dataset)
     train_loader = torch.utils.data.DataLoader(
         train_dataset,
         batch_size=training_args.per_device_train_batch_size,
@@ -337,7 +335,6 @@ def main():
     test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=1)
 
     cache_name=f"influence_cache/lissa_testquery_{training_args.query_idx}_solution_{training_args.solution_idx}_cache.json"
-    #gradient_name=f"gradient_cache/{training_args.training_split}chunk"
     gradient_name=f"gradient_cache/*chunk*batch*.pt"
 
     module = LiSSAInfluenceModuleWithGradientStorage(
